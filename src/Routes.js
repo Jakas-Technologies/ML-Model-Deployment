@@ -4,7 +4,7 @@ class Routes {
     constructor(server){
         this.server = server
         this.router = this.server.router
-        this.FareController = new FareController()
+        this.FareController = new FareController(this.server)
 
         this.setupRoutes()
     }

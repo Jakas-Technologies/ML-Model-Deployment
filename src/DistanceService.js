@@ -1,18 +1,18 @@
 const axios = require('axios');
 
 class DistanceService {
-    constructor() {
-        this.apiKey = 'AIzaSyAttBc9n2uWPiFJ9B79kRsDVU1s6MkdEUs';
+    constructor(server) {
+        this.server = server
+        this.apiKey = this.server.env.GOOGLE_API_KEY;
     }
 
     async getDistance(orgLat, orgLng, dLat, dLng) {
-        const apiKey = this.apiKey;
         const originLat = orgLat;
         const originLng = orgLng;
         const destinationLat = dLat;
         const destinationLng = dLng;
 
-        const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${originLat},${originLng}&destinations=${destinationLat},${destinationLng}&key=${apiKey}`;
+        const apiUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${originLat},${originLng}&destinations=${destinationLat},${destinationLng}&key=${this.apiKey}`;
 
         try {
             const response = await axios.get(apiUrl);
