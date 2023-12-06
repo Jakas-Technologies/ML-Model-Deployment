@@ -10,10 +10,7 @@ class FareController {
 
     async getFare(req, res){
         try {
-            const originLat = parseFloat(req.query.originLat)
-            const originLng = parseFloat(req.query.originLng)
-            const destinationLat = parseFloat(req.query.destinationLat)
-            const destinationLng = parseFloat(req.query.destinationLng)
+            const { originLat, originLng, destinationLat, destinationLng } = req.body;
 
             const distance = await this.DistanceService.getDistance(originLat, originLng, destinationLat, destinationLng)
 

@@ -12,6 +12,8 @@ class Server {
 
   run(){
     this.APP = express()
+    this.APP.use(express.json());  
+
 
     new Routes(this)
 

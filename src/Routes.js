@@ -16,7 +16,7 @@ class Routes {
             })
         })
 
-        this.router.get('/fare', this.FareController.getFare.bind(this.FareController))
+        this.router.post('/predict-fare', this.FareController.getFare.bind(this.FareController))
     }
 }
 
