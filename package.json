@@ -1,0 +1,17 @@
+{
+  "name": "fare-prediction-deployment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/Server.js",
+    "start": "node src/Server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^4.14.0",
+    "axios": "^1.6.2",
+    "express": "^4.18.2"
+  }
+}
