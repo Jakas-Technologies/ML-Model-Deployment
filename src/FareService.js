@@ -1,25 +1,33 @@
 const tf = require('@tensorflow/tfjs-node');
 const path = require('path');
-const norm_params = require('./fare_model/normalization_params.json')
+const normParams = require('./fare_model/normalization_params.json')
 
 class FareService {
 
-    async getFare(distance){
-        const distance_normalized = (distance - norm_params.mean_X) / norm_params.std_X;
+    async getFare(distance, passengerType) {
+        const distanceNormalized = (distance - normParams.mean_X.Distance) / normParams.std_X.Distance;
 
-        const modelPath = path.join('C:', 'Bangkit', 'Bangkit', 'Capstone Project', 'Model_Deployment', 'Project-1', 'fare_model', 'model.json');
+        const typeNormalized = [
+            ((passengerType === 'Elderly' ? 1 : 0) - normParams.mean_X.Type_Elderly) / normParams.std_X.Type_Elderly,
+            ((passengerType === 'General' ? 1 : 0) - normParams.mean_X.Type_General) / normParams.std_X.Type_General,
+            ((passengerType === 'Student' ? 1 : 0) - normParams.mean_X.Type_Student) / normParams.std_X.Type_Student,
+        ];
+        const modelPath = path.join('C:', 'Bangkit', 'Bangkit', 'Capstone Project', 'Model_Deployment', 'FaresModelExpress', 'src', 'fare_model', 'model.json');
         const model = await tf.loadLayersModel(`file://${modelPath}`);
 
-        const input = tf.tensor2d([distance_normalized], [1, 1]);
+        const input = tf.tensor2d(
+            [[distanceNormalized, ...typeNormalized]],
+            [1, 1 + typeNormalized.length]
+        );
         const result = model.predict(input);
 
-        const result_denormalized = tf.add(tf.mul(result, norm_params.std_y), norm_params.mean_y);
+        const resultDenormalized = tf.add(tf.mul(result, normParams.std_y), normParams.mean_y);
 
-        const resultValues = result_denormalized.dataSync();
+        const resultValues = resultDenormalized.dataSync();
 
-        const roundedValues = resultValues.map(value => Math.round(value  / 1000) * 1000);
+        const roundedValues = resultValues.map(value => Math.round(value / 1000) * 1000);
 
-    return roundedValues[0];
+        return roundedValues[0];
     }
 
 }

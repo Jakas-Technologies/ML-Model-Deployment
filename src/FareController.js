@@ -10,7 +10,7 @@ class FareController {
 
     async getFare(req, res){
         try {
-            const { originLat, originLng, destinationLat, destinationLng } = req.body;
+            const { originLat, originLng, destinationLat, destinationLng, passengerType } = req.body;
 
             const distance = await this.DistanceService.getDistance(originLat, originLng, destinationLat, destinationLng)
 
@@ -21,7 +21,7 @@ class FareController {
                 })
             }
 
-            const fare = await this.FareService.getFare(distance)
+            const fare = await this.FareService.getFare(distance, passengerType)
 
             return res.status(200).json({
                 status: 'OK',
