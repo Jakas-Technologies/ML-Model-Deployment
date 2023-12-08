@@ -46,10 +46,11 @@ Submit a POST request with data including origin and destination coordinates.
 Request:
 ```json
 {
-  "originLat": -6.907192649564511,
-  "originLng": 107.56701380695162,
-  "destinationLat": -6.897920894672473,
-  "destinationLng": 107.59286315024411
+   "originLat": -6.907192649564511,
+   "originLng": 107.56701380695162,
+   "destinationLat": -6.897920894672473,
+   "destinationLng": 107.59286315024411,
+   "passengerType": "Student"
 }
 
 ```
@@ -60,7 +61,7 @@ Response:
     "status": "OK",
     "data": {
         "distance": 5517,
-        "fare": 5000
+        "fare": 4000
     }
 }
 ```
