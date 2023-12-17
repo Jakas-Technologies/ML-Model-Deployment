@@ -1,6 +1,6 @@
-const DistanceService = require("./DistanceService");
-const FareService = require("./FareService");
-const ScraperService = require("./ScraperService");
+const DistanceService = require("../services/DistanceService");
+const FareService = require("../services/FareService");
+const ScraperService = require("../services/ScraperService");
 
 class FareController {
     constructor(server){
