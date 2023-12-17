@@ -1,6 +1,6 @@
 const tf = require('@tensorflow/tfjs-node');
 const path = require('path');
-const normParams = require('./fare_model/normalization_params.json')
+const normParams = require('../fare_model/normalization_params.json')
 
 class FareService {
 
@@ -15,7 +15,7 @@ class FareService {
 
         const fuelPriceNormalized = (fuelPrice - normParams.mean_X.BBM) / normParams.std_X.BBM;
 
-        const modelPath = path.join(__dirname, 'fare_model', 'model.json');
+        const modelPath = path.join(__dirname, '..', 'fare_model', 'model.json');
         const model = await tf.loadLayersModel(`file://${modelPath}`);
 
         const input = tf.tensor2d(
