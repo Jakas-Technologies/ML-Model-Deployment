@@ -1,10 +1,12 @@
 const DistanceService = require("./DistanceService");
 const FareService = require("./FareService");
+const ScraperService = require("./ScraperService");
 
 class FareController {
     constructor(server){
         this.server = server
         this.FareService = new FareService()
+        this.ScraperService = new ScraperService()
         this.DistanceService = new DistanceService(this.server)
     }
 
@@ -21,13 +23,16 @@ class FareController {
                 })
             }
 
-            const fare = await this.FareService.getFare(distance, passengerType)
+            const bbmPrice = await this.ScraperService.getBbmPrice()
+            const fare = await this.FareService.getFare(distance, passengerType, bbmPrice)
 
             return res.status(200).json({
                 status: 'OK',
                 data: {
+                    passengerType: passengerType,
                     distance: distance,
-                    fare: fare
+                    fare: fare,
+                    bbmPrice: bbmPrice
                 }
             })
 
