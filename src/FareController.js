@@ -23,8 +23,8 @@ class FareController {
                 })
             }
 
-            const bbmPrice = await this.ScraperService.getBbmPrice()
-            const fare = await this.FareService.getFare(distance, passengerType, bbmPrice)
+            const fuelPrice = await this.ScraperService.getFuelPrice()
+            const fare = await this.FareService.getFare(distance, passengerType, fuelPrice)
 
             return res.status(200).json({
                 status: 'OK',
@@ -32,7 +32,7 @@ class FareController {
                     passengerType: passengerType,
                     distance: distance,
                     fare: fare,
-                    bbmPrice: bbmPrice
+                    fuelPrice: fuelPrice
                 }
             })
 

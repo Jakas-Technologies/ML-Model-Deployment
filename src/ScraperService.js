@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer'); 
 
 class ScraperService {
-    async getBbmPrice() {
+    async getFuelPrice() {
         console.time('Total Execution Time');
 
         const browser = await puppeteer.launch({
