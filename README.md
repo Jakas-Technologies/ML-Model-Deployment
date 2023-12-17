@@ -60,8 +60,10 @@ Response:
 {
     "status": "OK",
     "data": {
+        "passengerType": "Student",
         "distance": 5517,
-        "fare": 4000
+        "fare": 4000,
+        "fuelPrice": 10000
     }
 }
 ```
