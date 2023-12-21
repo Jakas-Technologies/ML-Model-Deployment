@@ -1,9 +1,14 @@
-const puppeteer = require('puppeteer'); 
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const cron = require('node-cron');
+const path = require('path');
 
 class ScraperService {
-    async getFuelPrice() {
-        console.time('Total Execution Time');
+    constructor() {
+        this.filePath = path.join(__dirname, '..', 'data', 'fuelPrice.json');;
+    }
 
+    async updateFuelPrice() {
         const browser = await puppeteer.launch({
             headless: "new"
         });
@@ -34,12 +39,34 @@ class ScraperService {
             return null;
         });
 
-        console.timeEnd('Total Execution Time');
-
         await browser.close();
 
-        return priceProvJawaBarat;
+        this.saveFuelPriceToFile(priceProvJawaBarat);
+    }
+
+    saveFuelPriceToFile(price) {
+        const jsonData = { fuelPrice: price };
+        fs.writeFileSync(this.filePath, JSON.stringify(jsonData, null, 2));
+    }
+
+    async getFuelPriceFromFile() {
+        try {
+            const data = fs.readFileSync(this.filePath, 'utf8');
+            const jsonData = JSON.parse(data);
+            return jsonData.fuelPrice;
+        } catch (err) {
+            console.error(err.message);
+            return null;
+        }
+    }
+
+    scheduleDailyUpdate() {
+        cron.schedule('0 0 * * *', async () => {
+            const currentTime = new Date().toISOString();
+            await this.updateFuelPrice();
+            console.log(`FUEL PRICE UPDATED at ${currentTime}`);
+        });
     }
 }
 
-module.exports = ScraperService
+module.exports = ScraperService;
